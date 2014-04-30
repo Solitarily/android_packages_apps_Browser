@@ -38,8 +38,6 @@ import android.webkit.WebSettings.LayoutAlgorithm;
 import android.webkit.WebSettings.PluginState;
 import android.webkit.WebSettings.TextSize;
 import android.webkit.WebSettings.ZoomDensity;
-import android.webkit.WebSettingsClassic;
-import android.webkit.WebSettingsClassic.AutoFillProfile;
 import android.webkit.WebStorage;
 import android.webkit.WebView;
 import android.webkit.WebViewDatabase;
@@ -62,8 +60,8 @@ public class BrowserSettings implements OnSharedPreferenceChangeListener,
 
     // TODO: Do something with this UserAgent stuff
     private static final String DESKTOP_USERAGENT = "Mozilla/5.0 (X11; " +
-        "Linux x86_64) AppleWebKit/534.24 (KHTML, like Gecko) " +
-        "Chrome/11.0.696.34 Safari/534.24";
+        "Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) " +
+        "Chrome/30.0.1599.101 Safari/537.36";
 
     private static final String IPHONE_USERAGENT = "Mozilla/5.0 (iPhone; U; " +
         "CPU iPhone OS 4_0 like Mac OS X; en-us) AppleWebKit/532.9 " +
@@ -111,7 +109,6 @@ public class BrowserSettings implements OnSharedPreferenceChangeListener,
     private LinkedList<WeakReference<WebSettings>> mManagedSettings;
     private Controller mController;
     private WebStorageSizeManager mWebStorageSizeManager;
-    private AutofillHandler mAutofillHandler;
     private WeakHashMap<WebSettings, String> mCustomUserAgents;
     private static boolean sInitialized = false;
     private boolean mNeedsSharedSync = true;
@@ -129,8 +126,6 @@ public class BrowserSettings implements OnSharedPreferenceChangeListener,
 
     private static String sFactoryResetUrl;
 
-    private static boolean sWebGLAvailable;
-
     public static void initialize(final Context context) {
         sInstance = new BrowserSettings(context);
     }
@@ -142,10 +137,8 @@ public class BrowserSettings implements OnSharedPreferenceChangeListener,
     private BrowserSettings(Context context) {
         mContext = context.getApplicationContext();
         mPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
-        mAutofillHandler = new AutofillHandler(mContext);
         mManagedSettings = new LinkedList<WeakReference<WebSettings>>();
         mCustomUserAgents = new WeakHashMap<WebSettings, String>();
-        mAutofillHandler.asyncLoadFromDb();
         BackgroundHandler.execute(mSetup);
     }
 
@@ -157,13 +150,14 @@ public class BrowserSettings implements OnSharedPreferenceChangeListener,
     }
 
     public void startManagingSettings(WebSettings settings) {
-        WebSettingsClassic settingsClassic = (WebSettingsClassic) settings;
+
         if (mNeedsSharedSync) {
             syncSharedSettings();
         }
+
         synchronized (mManagedSettings) {
-            syncStaticSettings(settingsClassic);
-            syncSetting(settingsClassic);
+            syncStaticSettings(settings);
+            syncSetting(settings);
             mManagedSettings.add(new WeakReference<WebSettings>(settings));
         }
     }
@@ -253,22 +247,17 @@ public class BrowserSettings implements OnSharedPreferenceChangeListener,
     /**
      * Syncs all the settings that have a Preference UI
      */
-    private void syncSetting(WebSettingsClassic settings) {
+    private void syncSetting(WebSettings settings) {
         settings.setGeolocationEnabled(enableGeolocation());
         settings.setJavaScriptEnabled(enableJavascript());
         settings.setLightTouchEnabled(enableLightTouch());
         settings.setNavDump(enableNavDump());
-        settings.setHardwareAccelSkiaEnabled(isSkiaHardwareAccelerated());
-        settings.setShowVisualIndicator(enableVisualIndicator());
         settings.setDefaultTextEncodingName(getDefaultTextEncoding());
         settings.setDefaultZoom(getDefaultZoom());
         settings.setMinimumFontSize(getMinimumFontSize());
         settings.setMinimumLogicalFontSize(getMinimumFontSize());
-        settings.setForceUserScalable(forceEnableUserScalable());
         settings.setPluginState(getPluginState());
         settings.setTextZoom(getTextZoom());
-        settings.setDoubleTapZoom(getDoubleTapZoom());
-        settings.setAutoFillEnabled(isAutofillEnabled());
         settings.setLayoutAlgorithm(getLayoutAlgorithm());
         settings.setJavaScriptCanOpenWindowsAutomatically(!blockPopupWindows());
         settings.setLoadsImagesAutomatically(loadImages());
@@ -276,10 +265,6 @@ public class BrowserSettings implements OnSharedPreferenceChangeListener,
         settings.setSavePassword(rememberPasswords());
         settings.setSaveFormData(saveFormdata());
         settings.setUseWideViewPort(isWideViewport());
-        settings.setAutoFillProfile(getAutoFillProfile());
-        setIsWebGLAvailable(settings.isWebGLAvailable());
-        settings.setWebGLEnabled(isWebGLAvailable() && isWebGLEnabled());
-        settings.setWebSocketsEnabled(isWebSocketsEnabled());
 
         String ua = mCustomUserAgents.get(settings);
         if (ua != null) {
@@ -287,31 +272,15 @@ public class BrowserSettings implements OnSharedPreferenceChangeListener,
         } else {
             settings.setUserAgentString(USER_AGENTS[getUserAgent()]);
         }
-
-        boolean useInverted = useInvertedRendering();
-        settings.setProperty(WebViewProperties.gfxInvertedScreen,
-                useInverted ? "true" : "false");
-        if (useInverted) {
-            settings.setProperty(WebViewProperties.gfxInvertedScreenContrast,
-                    Float.toString(getInvertedContrast()));
-        }
-
-        if (isDebugEnabled()) {
-            settings.setProperty(WebViewProperties.gfxEnableCpuUploadPath,
-                    enableCpuUploadPath() ? "true" : "false");
-        }
-
-        settings.setLinkPrefetchEnabled(mLinkPrefetchAllowed);
     }
 
     /**
      * Syncs all the settings that have no UI
      * These cannot change, so we only need to set them once per WebSettings
      */
-    private void syncStaticSettings(WebSettingsClassic settings) {
+    private void syncStaticSettings(WebSettings settings) {
         settings.setDefaultFontSize(16);
         settings.setDefaultFixedFontSize(13);
-        settings.setPageCacheCapacity(getPageCacheCapacity());
 
         // WebView inside Browser doesn't want initial focus to be set.
         settings.setNeedInitialFocus(false);
@@ -320,13 +289,6 @@ public class BrowserSettings implements OnSharedPreferenceChangeListener,
         // enable smooth transition for better performance during panning or
         // zooming
         settings.setEnableSmoothTransition(true);
-        // WebView should be preserving the memory as much as possible.
-        // However, apps like browser wish to turn on the performance mode which
-        // would require more memory.
-        // TODO: We need to dynamically allocate/deallocate temporary memory for
-        // apps which are trying to use minimal memory. Currently, double
-        // buffering is always turned on, which is unnecessary.
-        settings.setProperty(WebViewProperties.gfxUseMinimalMemory, "false");
         // disable content url access
         settings.setAllowContentAccess(false);
 
@@ -334,7 +296,6 @@ public class BrowserSettings implements OnSharedPreferenceChangeListener,
         settings.setAppCacheEnabled(true);
         settings.setDatabaseEnabled(true);
         settings.setDomStorageEnabled(true);
-        settings.setWorkersEnabled(true);  // This only affects V8.
 
         // HTML5 configuration parametersettings.
         settings.setAppCacheMaxSize(getWebStorageSizeManager().getAppCacheMaxSize());
@@ -360,7 +321,7 @@ public class BrowserSettings implements OnSharedPreferenceChangeListener,
             Iterator<WeakReference<WebSettings>> iter = mManagedSettings.iterator();
             while (iter.hasNext()) {
                 WeakReference<WebSettings> ref = iter.next();
-                WebSettingsClassic settings = (WebSettingsClassic)ref.get();
+                WebSettings settings = ref.get();
                 if (settings == null) {
                     iter.remove();
                     continue;
@@ -397,7 +358,7 @@ public class BrowserSettings implements OnSharedPreferenceChangeListener,
     public LayoutAlgorithm getLayoutAlgorithm() {
         LayoutAlgorithm layoutAlgorithm = LayoutAlgorithm.NORMAL;
         if (autofitPages()) {
-            layoutAlgorithm = LayoutAlgorithm.NARROW_COLUMNS;
+            layoutAlgorithm = LayoutAlgorithm.TEXT_AUTOSIZING;
         }
         if (isDebugEnabled()) {
             if (isSmallScreen()) {
@@ -406,7 +367,7 @@ public class BrowserSettings implements OnSharedPreferenceChangeListener,
                 if (isNormalLayout()) {
                     layoutAlgorithm = LayoutAlgorithm.NORMAL;
                 } else {
-                    layoutAlgorithm = LayoutAlgorithm.NARROW_COLUMNS;
+                    layoutAlgorithm = LayoutAlgorithm.TEXT_AUTOSIZING;
                 }
             }
         }
@@ -517,19 +478,6 @@ public class BrowserSettings implements OnSharedPreferenceChangeListener,
 
     private void resetCachedValues() {
         updateSearchEngine(false);
-    }
-
-    public AutoFillProfile getAutoFillProfile() {
-        return mAutofillHandler.getAutoFillProfile();
-    }
-
-    public void setAutoFillProfile(AutoFillProfile profile, Message msg) {
-        mAutofillHandler.setAutoFillProfile(profile, msg);
-        // Auto-fill will reuse the same profile ID when making edits to the profile,
-        // so we need to force a settings sync (otherwise the SharedPreferences
-        // manager will optimise out the call to onSharedPreferenceChanged(), as
-        // it thinks nothing has changed).
-        syncManagedSettings();
     }
 
     public void toggleDebugSettings() {
@@ -846,10 +794,6 @@ public class BrowserSettings implements OnSharedPreferenceChangeListener,
         return 1 + (mPrefs.getInt(PREF_INVERTED_CONTRAST, 0) / 10f);
     }
 
-    public boolean isWebGLEnabled() {
-        return mPrefs.getBoolean(PREF_ENABLE_WEBGL, true);
-    }
-
     public boolean isWebSocketsEnabled() {
         return mPrefs.getBoolean(PREF_ENABLE_WEBSOCKETS, false);
     }
@@ -929,14 +873,6 @@ public class BrowserSettings implements OnSharedPreferenceChangeListener,
 
     public String getLinkPrefetchEnabled() {
         return mPrefs.getString(PREF_LINK_PREFETCH, getDefaultLinkPrefetchSetting());
-    }
-
-    private static void setIsWebGLAvailable(boolean available) {
-        sWebGLAvailable = available;
-    }
-
-    public static boolean isWebGLAvailable() {
-        return sWebGLAvailable;
     }
 
     // -----------------------------

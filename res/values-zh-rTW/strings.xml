@@ -17,13 +17,13 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="application_name" msgid="1935869255545976415">"瀏覽器"</string>
-    <string name="choose_upload" msgid="3649366287575002063">"選擇要上載的檔案"</string>
+    <string name="choose_upload" msgid="3649366287575002063">"選擇要上傳的檔案"</string>
     <string name="uploads_disabled" msgid="463761197575372994">"檔案上傳功能已停用。"</string>
     <string name="new_tab" msgid="7971857320679510529">"新分頁"</string>
     <string name="new_incognito_tab" msgid="3606197964239039478">"新無痕式分頁"</string>
     <string name="tab_bookmarks" msgid="2305793036003473653">"書籤"</string>
     <string name="tab_most_visited" msgid="1077402532455000703">"最常造訪"</string>
-    <string name="tab_history" msgid="1979267558744613746">"記錄"</string>
+    <string name="tab_history" msgid="1979267558744613746">"紀錄"</string>
     <string name="tab_snapshots" msgid="1449241204980265186">"已儲存的網頁"</string>
     <string name="added_to_bookmarks" msgid="4028710765672851635">"已加入書籤。"</string>
     <string name="removed_from_bookmarks" msgid="546648923924996722">"已從書籤中移除。"</string>
@@ -31,6 +31,7 @@
     <string name="username" msgid="5057566336518215922">"名字"</string>
     <string name="password" msgid="1177138552305184404">"密碼"</string>
     <string name="action" msgid="183105774472071343">"登入"</string>
+    <string name="bookmarks_add_page" msgid="3093456701072617702">"儲存書籤"</string>
     <string name="bookmarks_search" msgid="5229596268214362873">"瀏覽器"</string>
     <string name="cancel" msgid="3017274947407233702">"取消"</string>
     <string name="ok" msgid="1509280796718850364">"確定"</string>
@@ -77,7 +78,7 @@
     <string name="open_bookmark" msgid="8473581305759935790">"開啟"</string>
     <string name="remove_bookmark" msgid="8407495852801410891">"刪除書籤"</string>
     <string name="remove_from_bookmarks" msgid="4374080666576982775">"從書籤中移除"</string>
-    <string name="remove_history_item" msgid="5021424935726728618">"從記錄中移除"</string>
+    <string name="remove_history_item" msgid="5021424935726728618">"從紀錄中移除"</string>
     <string name="set_as_homepage" msgid="4752937379414905560">"設為首頁"</string>
     <string name="bookmark_saved" msgid="2766434679871317557">"已儲存至書籤。"</string>
     <string name="bookmark_not_saved" msgid="1077732557310662080">"無法儲存書籤。"</string>
@@ -98,7 +99,7 @@
     <string name="bookmarks" msgid="1961279134885867815">"書籤"</string>
     <string name="shortcut_bookmark" msgid="3974876480401135895">"書籤"</string>
     <string name="shortcut_bookmark_title" msgid="7570786275916681296">"選擇書籤"</string>
-    <string name="history" msgid="2451240511251410032">"記錄"</string>
+    <string name="history" msgid="2451240511251410032">"紀錄"</string>
     <string name="menu_view_download" msgid="2124570321712995120">"下載"</string>
     <string name="copy_page_url" msgid="1188679152608889555">"複製網頁網址"</string>
     <string name="share_page" msgid="593756995297268343">"分享網頁"</string>
@@ -195,9 +196,9 @@
     <string name="pref_privacy_clear_cookies" msgid="3095583579133780331">"清除所有 Cookie"</string>
     <string name="pref_privacy_clear_cookies_summary" msgid="6962742063990677520">"清除瀏覽器中所有 Cookie"</string>
     <string name="pref_privacy_clear_cookies_dlg" msgid="1493252163164621278">"刪除所有 Cookie？"</string>
-    <string name="pref_privacy_clear_history" msgid="8723795508825198477">"清除記錄"</string>
-    <string name="pref_privacy_clear_history_summary" msgid="6868501330708940734">"清除瀏覽記錄"</string>
-    <string name="pref_privacy_clear_history_dlg" msgid="6934317391642846227">"刪除瀏覽器的瀏覽記錄？"</string>
+    <string name="pref_privacy_clear_history" msgid="8723795508825198477">"清除紀錄"</string>
+    <string name="pref_privacy_clear_history_summary" msgid="6868501330708940734">"清除瀏覽紀錄"</string>
+    <string name="pref_privacy_clear_history_dlg" msgid="6934317391642846227">"刪除瀏覽器的瀏覽紀錄？"</string>
     <string name="pref_privacy_formdata_title" msgid="6549813837982050424">"表單資料"</string>
     <string name="pref_privacy_clear_form_data" msgid="4232668196344383987">"清除表單資料"</string>
     <string name="pref_privacy_clear_form_data_summary" msgid="7702091143640546200">"清除所有已儲存的表單資料"</string>
@@ -298,15 +299,15 @@
     <string name="browserFrameFormResubmitMessage" msgid="5244059279866705254">"您要瀏覽的網頁包含已提交的資料 (「POSTDATA」)。如果您重新傳送資料，系統將重複執行該網頁表單上的作業 (例如搜尋或線上購物)。"</string>
     <string name="loadSuspendedTitle" msgid="6453376579109644551">"無網路連線"</string>
     <string name="loadSuspended" msgid="3843343290039218668">"沒有網際網路連線，因此瀏覽器無法載入這個網頁。"</string>
-    <string name="clear_history" msgid="5998307092715979619">"清除記錄"</string>
+    <string name="clear_history" msgid="5998307092715979619">"清除紀錄"</string>
     <string name="browser_history" msgid="2979476257919939232">"最近瀏覽的頁面"</string>
-    <string name="empty_history" msgid="7013369425484218985">"沒有瀏覽器記錄。"</string>
+    <string name="empty_history" msgid="7013369425484218985">"沒有瀏覽器紀錄。"</string>
     <string name="go_home" msgid="109129207276086793">"首頁"</string>
     <string name="add_new_bookmark" msgid="3158497555612337238">"新增書籤"</string>
     <string name="add_bookmark_short" msgid="3783984330998103735">"新增"</string>
     <string name="search_hint" msgid="4647356319916631820">"搜尋或輸入網址"</string>
     <string name="search_button_text" msgid="5235226933877634410">"前往"</string>
-    <string name="search_settings_description" msgid="1422401062529014107">"書籤與網頁記錄"</string>
+    <string name="search_settings_description" msgid="1422401062529014107">"書籤與網頁紀錄"</string>
     <string name="popup_window_attempt" msgid="31565781154067629">"允許這個網站開啟彈出式視窗？"</string>
     <string name="allow" msgid="1157313689171991335">"允許"</string>
     <string name="block" msgid="9172175889884707800">"封鎖"</string>

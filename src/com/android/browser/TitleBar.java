@@ -53,10 +53,10 @@ public class TitleBar extends RelativeLayout {
     private AutologinBar mAutoLogin;
     private NavigationBarBase mNavBar;
     private boolean mUseQuickControls;
-    private SnapshotBar mSnapshotBar;
 
     //state
     private boolean mShowing;
+    private boolean mHideLoad;
     private boolean mInLoad;
     private boolean mSkipTitleBarAnimations;
     private Animator mTitleBarAnimator;
@@ -89,16 +89,6 @@ public class TitleBar extends RelativeLayout {
         ViewStub stub = (ViewStub) findViewById(R.id.autologin_stub);
         mAutoLogin = (AutologinBar) stub.inflate();
         mAutoLogin.setTitleBar(this);
-    }
-
-    private void inflateSnapshotBar() {
-        if (mSnapshotBar != null) {
-            return;
-        }
-
-        ViewStub stub = (ViewStub) findViewById(R.id.snapshotbar_stub);
-        mSnapshotBar = (SnapshotBar) stub.inflate();
-        mSnapshotBar.setTitleBar(this);
     }
 
     @Override
@@ -268,13 +258,12 @@ public class TitleBar extends RelativeLayout {
             mProgress.setProgress(PageProgressView.MAX_PROGRESS);
             mProgress.setVisibility(View.GONE);
             mInLoad = false;
+            mHideLoad=false;
             mNavBar.onProgressStopped();
             // check if needs to be hidden
             if (!isEditingUrl() && !wantsToBeVisible()) {
                 if (mUseQuickControls) {
                     hide();
-                } else {
-                    mBaseUi.showTitleBarForDuration();
                 }
             }
         } else {
@@ -285,11 +274,15 @@ public class TitleBar extends RelativeLayout {
             }
             mProgress.setProgress(newProgress * PageProgressView.MAX_PROGRESS
                     / PROGRESS_MAX);
+            if (!isHideLoad() && !mUseQuickControls) {
+                hide();
+                mHideLoad=true;
+            }
             if (mUseQuickControls && !isEditingUrl()) {
                 setShowProgressOnly(true);
-            }
-            if (!mShowing) {
-                show();
+                if (!mShowing) {
+                    show();
+                }
             }
         }
     }
@@ -364,9 +357,7 @@ public class TitleBar extends RelativeLayout {
     }
 
     public boolean wantsToBeVisible() {
-        return inAutoLogin()
-            || (mSnapshotBar != null && mSnapshotBar.getVisibility() == View.VISIBLE
-                    && mSnapshotBar.isAnimating());
+        return inAutoLogin();
     }
 
     private boolean inAutoLogin() {
@@ -398,6 +389,10 @@ public class TitleBar extends RelativeLayout {
         return mUseQuickControls;
     }
 
+    public boolean isHideLoad() {
+        return mHideLoad;
+    }
+
     public boolean isInLoad() {
         return mInLoad;
     }
@@ -418,20 +413,7 @@ public class TitleBar extends RelativeLayout {
     }
 
     public void onTabDataChanged(Tab tab) {
-        if (mSnapshotBar != null) {
-            mSnapshotBar.onTabDataChanged(tab);
-        }
-
-        if (tab.isSnapshot()) {
-            inflateSnapshotBar();
-            mSnapshotBar.setVisibility(VISIBLE);
-            mNavBar.setVisibility(GONE);
-        } else {
-            if (mSnapshotBar != null) {
-                mSnapshotBar.setVisibility(GONE);
-            }
-            mNavBar.setVisibility(VISIBLE);
-        }
+        mNavBar.setVisibility(VISIBLE);
     }
 
     public void onScrollChanged() {

@@ -71,8 +71,6 @@ public class NavScreen extends RelativeLayout
     NavTabScroller mScroller;
     TabAdapter mAdapter;
     int mOrientation;
-    Point mSize;
-    boolean mNeedsMenu;
     HashMap<Tab, View> mTabViews;
 
     public NavScreen(Activity activity, UiController ctl, PhoneUi ui) {
@@ -81,9 +79,6 @@ public class NavScreen extends RelativeLayout
         mUiController = ctl;
         mUi = ui;
         mOrientation = activity.getResources().getConfiguration().orientation;
-        WindowManager wm = (WindowManager)getContext().getSystemService(Context.WINDOW_SERVICE);
-        mSize = new Point();
-        wm.getDefaultDisplay().getSize(mSize);
         init();
     }
 
@@ -151,10 +146,6 @@ public class NavScreen extends RelativeLayout
                 onCloseTab(tab);
             }
         });
-        mNeedsMenu = !ViewConfiguration.get(getContext()).hasPermanentMenuKey();
-        if (!mNeedsMenu) {
-            mMore.setVisibility(View.GONE);
-        }
     }
 
     @Override
@@ -222,9 +213,7 @@ public class NavScreen extends RelativeLayout
     }
 
     private Tab findCenteredTab(){
-        View v = mOrientation == Configuration.ORIENTATION_LANDSCAPE ?
-                mScroller.findViewAt(mSize.y/2, mSize.x/2):
-                mScroller.findViewAt(mSize.x/2, mSize.y/2);
+        View v = mScroller.findViewAt(mScroller.getWidth() / 2, mScroller.getHeight() / 2);
         if( v != null && v instanceof NavTabView ){
             Long tabId = ((NavTabView)v).getWebViewId();
             if( tabId != null ){

@@ -31,6 +31,7 @@
     <string name="username" msgid="5057566336518215922">"ชื่อ"</string>
     <string name="password" msgid="1177138552305184404">"รหัสผ่าน"</string>
     <string name="action" msgid="183105774472071343">"ลงชื่อเข้าใช้"</string>
+    <string name="bookmarks_add_page" msgid="3093456701072617702">"บันทึกบุ๊กมาร์ก"</string>
     <string name="bookmarks_search" msgid="5229596268214362873">"เบราว์เซอร์"</string>
     <string name="cancel" msgid="3017274947407233702">"ยกเลิก"</string>
     <string name="ok" msgid="1509280796718850364">"ตกลง"</string>
@@ -279,7 +280,7 @@
     <string name="pref_data_preload_title" msgid="4479320472980292873">"การโหลดผลการค้นหาล่วงหน้า"</string>
   <string-array name="pref_data_preload_choices">
     <item msgid="5180466923190095508">"ไม่เลย"</item>
-    <item msgid="1791664748778640002">"Wi-Fi เท่านั้น"</item>
+    <item msgid="1791664748778640002">"WiFi เท่านั้น"</item>
     <item msgid="3944061253437827617">"ทุกครั้ง"</item>
   </string-array>
     <string name="pref_data_preload_summary" msgid="3809168910751382727">"อนุญาตให้เบราว์เซอร์โหลดผลการค้นหาที่เชื่อถือได้สูงก่อนล่วงหน้าในเบื้องหลัง"</string>

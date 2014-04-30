@@ -46,7 +46,6 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
-import android.webkit.WebViewClassic;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -423,9 +422,9 @@ public abstract class BaseUi implements UI {
                 .findViewById(R.id.subwindow_close);
         final WebView cancelSubView = subView;
         cancel.setOnClickListener(new OnClickListener() {
+            @Override
             public void onClick(View v) {
-                WebViewClassic.fromWebView(cancelSubView).getWebChromeClient().onCloseWindow(
-                        cancelSubView);
+                ((BrowserWebView) cancelSubView).getWebChromeClient().onCloseWindow(cancelSubView);
             }
         });
         tab.setSubWebView(subView);

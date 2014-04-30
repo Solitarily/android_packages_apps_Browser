@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2012-2013 The CyanogenMod Project
+<!--
+     Copyright (C) 2012-2014 The CyanogenMod Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -24,10 +25,6 @@
     <!-- User agent summary -->
     <string name="pref_content_ua_summary">Choose a user agent</string>
 
-    <!-- Title for the WebGL feature [CHAR LIMIT=40] -->
-    <string name="pref_lab_webgl">WebGL</string>
-    <!-- Summary for the WebGL lab feature [CHAR LIMIT=120] -->
-    <string name="pref_lab_webgl_summary">Enable WebGL</string>
     <!-- Title for the WebSockets feature [CHAR LIMIT=40] -->
     <string name="pref_lab_websockets">WebSockets</string>
     <!-- Summary for the WebGL lab feature [CHAR LIMIT=120] -->

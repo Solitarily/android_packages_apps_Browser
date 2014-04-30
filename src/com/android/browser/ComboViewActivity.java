@@ -73,8 +73,6 @@ public class ComboViewActivity extends Activity implements CombinedBookmarksCall
                 BrowserBookmarksPage.class, args);
         mTabsAdapter.addTab(bar.newTab().setText(R.string.tab_history),
                 BrowserHistoryPage.class, args);
-        mTabsAdapter.addTab(bar.newTab().setText(R.string.tab_snapshots),
-                BrowserSnapshotPage.class, args);
 
         if (savedInstanceState != null) {
             bar.setSelectedNavigationItem(

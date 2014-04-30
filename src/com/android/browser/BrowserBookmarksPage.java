@@ -411,7 +411,9 @@ public class BrowserBookmarksPage extends Fragment implements View.OnCreateConte
         LoaderManager lm = getLoaderManager();
         lm.destroyLoader(LOADER_ACCOUNTS);
         for (int id : mBookmarkAdapters.keySet()) {
-            lm.destroyLoader(id);
+            synchronized (mBookmarkAdapters.get(id).mCursorLock) {
+                lm.destroyLoader(id);
+            }
         }
         mBookmarkAdapters.clear();
     }
@@ -626,10 +628,18 @@ public class BrowserBookmarksPage extends Fragment implements View.OnCreateConte
                 throw new IllegalArgumentException("Missing folder id!");
             }
             Uri uri = BookmarkUtils.getBookmarksUri(mContext);
-            Cursor c = mContext.getContentResolver().query(uri,
-                    null, BrowserContract.Bookmarks.PARENT + "=?",
-                    new String[] {params[0].toString()}, null);
-            return c.getCount();
+            Cursor c = null;
+            try {
+                c = mContext.getContentResolver().query(uri,
+                        null, BrowserContract.Bookmarks.PARENT + "=?",
+                        new String[] {params[0].toString()}, null);
+
+                return c.getCount();
+            } finally {
+                if ( c != null) {
+                    c.close();
+                }
+            }
         }
 
         @Override

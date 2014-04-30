@@ -46,6 +46,7 @@ public class BrowserWebViewFactory implements WebViewFactory {
     public WebView createWebView(boolean privateBrowsing) {
         WebView w = instantiateWebView(null, android.R.attr.webViewStyle, privateBrowsing);
         initWebViewSettings(w);
+        ((BrowserWebView)w).setPrivateBrowsing(privateBrowsing);
         return w;
     }
 
@@ -65,6 +66,9 @@ public class BrowserWebViewFactory implements WebViewFactory {
         // settings
         final BrowserSettings s = BrowserSettings.getInstance();
         s.startManagingSettings(w.getSettings());
+
+        // Remote Web Debugging is always enabled
+        WebView.setWebContentsDebuggingEnabled(true);
     }
 
 }

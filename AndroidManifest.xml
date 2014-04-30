@@ -52,7 +52,8 @@
                    android:icon="@mipmap/ic_launcher_browser"
                    android:backupAgent=".BrowserBackupAgent"
                    android:hardwareAccelerated="true"
-                   android:taskAffinity="android.task.browser" >
+                   android:taskAffinity="android.task.browser"
+                   android:supportsRtl="true" >
 
         <provider android:name=".provider.BrowserProvider2"
                   android:authorities="com.android.browser;browser"
@@ -184,7 +185,7 @@
                     android:resource="@xml/bookmarks_searchable" />
         </activity>
 
-        <activity android:name="AddBookmarkPage" android:label="Save bookmark"
+        <activity android:name="AddBookmarkPage" android:label="@string/bookmarks_add_page"
                   android:theme="@style/DialogWhenLarge"
                   android:configChanges="orientation|keyboardHidden|screenSize"
                   android:windowSoftInputMode="adjustResize">

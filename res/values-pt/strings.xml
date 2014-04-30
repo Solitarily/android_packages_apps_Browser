@@ -31,6 +31,7 @@
     <string name="username" msgid="5057566336518215922">"Nome"</string>
     <string name="password" msgid="1177138552305184404">"Senha"</string>
     <string name="action" msgid="183105774472071343">"Fazer login"</string>
+    <string name="bookmarks_add_page" msgid="3093456701072617702">"Salvar favorito"</string>
     <string name="bookmarks_search" msgid="5229596268214362873">"Navegador"</string>
     <string name="cancel" msgid="3017274947407233702">"Cancelar"</string>
     <string name="ok" msgid="1509280796718850364">"OK"</string>
@@ -349,7 +350,7 @@
     <string name="website_settings_clear_all_dialog_message" msgid="1551164275687475061">"Excluir todos os dados de sites e permissões de localização?"</string>
     <string name="website_settings_clear_all_dialog_ok_button" msgid="7858504776529106243">"OK"</string>
     <string name="website_settings_clear_all_dialog_cancel_button" msgid="1896757051856611674">"Cancelar"</string>
-    <string name="progress_dialog_setting_wallpaper" msgid="2031391201442335889">"Definindo papel de parede..."</string>
+    <string name="progress_dialog_setting_wallpaper" msgid="2031391201442335889">"Definindo plano de fundo..."</string>
     <string name="defaultBookmarksUpButton" msgid="2303951020715704735">"Favoritos"</string>
     <string name="empty_bookmarks_folder" msgid="6239830231917618556">"Não há favoritos."</string>
     <string name="other_bookmarks" msgid="8021889794475657319">"Outros favoritos"</string>

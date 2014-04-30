@@ -31,6 +31,7 @@
     <string name="username" msgid="5057566336518215922">"Brukernavn"</string>
     <string name="password" msgid="1177138552305184404">"Passord"</string>
     <string name="action" msgid="183105774472071343">"Logg på"</string>
+    <string name="bookmarks_add_page" msgid="3093456701072617702">"Lagre bokmerke"</string>
     <string name="bookmarks_search" msgid="5229596268214362873">"Nettleser"</string>
     <string name="cancel" msgid="3017274947407233702">"Avbryt"</string>
     <string name="ok" msgid="1509280796718850364">"OK"</string>
@@ -110,8 +111,8 @@
     <string name="contextmenu_openlink" msgid="7237961252214188935">"Åpne"</string>
     <string name="contextmenu_openlink_newwindow" msgid="1205313604181761403">"Åpne i ny fane"</string>
     <string name="contextmenu_openlink_newwindow_background" msgid="4690381019116746687">"Åpne i ny bakgrunnsfane"</string>
-    <string name="contextmenu_savelink" msgid="5508554930832538184">"Lagre kobling"</string>
-    <string name="contextmenu_sharelink" msgid="5392275392280130331">"Del kobling"</string>
+    <string name="contextmenu_savelink" msgid="5508554930832538184">"Lagre denne linken"</string>
+    <string name="contextmenu_sharelink" msgid="5392275392280130331">"Del denne linken"</string>
     <string name="contextmenu_copy" msgid="398860586635404030">"Kopier"</string>
     <string name="contextmenu_copylink" msgid="5153657160294534270">"Kopier koblingsadresse"</string>
     <string name="contextmenu_download_image" msgid="4243829645180686912">"Lagre bilde"</string>
@@ -386,7 +387,7 @@
     <string name="accessibility_button_search" msgid="5357014102136055376">"Søk"</string>
     <string name="accessibility_button_voice" msgid="152016375096083337">"Start talesøk"</string>
     <string name="accessibility_button_bookmarks" msgid="7435055677299151649">"Bokmerker"</string>
-    <string name="accessibility_button_closetab" msgid="6954807842756927737">"Lukk fane"</string>
+    <string name="accessibility_button_closetab" msgid="6954807842756927737">"Lukk fanen"</string>
     <string name="accessibility_button_newtab" msgid="4116986240706315748">"Åpne ny fane"</string>
     <string name="accessibility_button_newincognitotab" msgid="5254901889040012964">"Åpne ny inkognitofane"</string>
     <string name="accessibility_button_clear" msgid="6943152307986161598">"Tøm inndata"</string>
